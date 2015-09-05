@@ -1,0 +1,10 @@
+*.pyc
+*.jpg
+*.png
+*.mp3
+*.mp4
+tmp/*
+sanguosha/*
+image/*
+wechat/fonts/*
+wechat/img/*

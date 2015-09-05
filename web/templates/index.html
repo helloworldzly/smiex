@@ -1,0 +1,455 @@
+<!DOCTYPE html>
+<html lang="zh-CN" style="overflow-y: visible;">
+  <head>
+    <title>Hello World</title>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=0" />
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <link href="/static/css/bootstrap.min.css" rel="stylesheet" media="screen">
+    <script src="/static/js/jquery.min.js"></script>
+    <script src="/static/js/bootstrap.min.js"></script>
+    <style type="text/css">
+     #menu{
+      width:150px;
+      height: 100%;
+     }
+     .qrhref{
+      color:#0077FF;
+      background: transparent;
+      background-image: none !important;
+     }
+    </style>
+    <script type="text/javascript">
+      $(document).ready(function(){
+        $('[data-toggle="tooltip"]').tooltip();
+        $("#slidehide").click(function(){
+          $("#slide").slideToggle();
+          if($("#chevron").hasClass("glyphicon-chevron-up")){
+            $("#chevron").removeClass("glyphicon-chevron-up").addClass("glyphicon-chevron-down");
+          }
+          else{
+            $("#chevron").removeClass("glyphicon-chevron-down").addClass("glyphicon-chevron-up");
+          }
+        });
+        $("#logout").click(function(){
+          $.getJSON("/api/logout",function(data,status){
+            if(data.rescode=="00000"){
+              window.location.href="/";
+            }
+          });
+        });
+      });
+    </script>
+  </head>
+  <body>
+    <nav class="navbar navbar-default">
+      <div class="container">
+        <div class="navbar-header">
+          <button class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navitem" aria-expanded="false">
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="navbar-brand" href="#">Brand</a>
+        </div>
+
+        <div class="collapse navbar-collapse" id="navitem">
+          <ul class="nav navbar-nav">
+            <li class="active">
+              <a href="#">首页</a>
+            </li>
+            <li>
+              <a href="#">活动中心</a>
+            </li>
+            <li>
+              <a href="#">资源平台</a>
+            </li>
+          </ul>
+
+          <ul class="nav navbar-nav navbar-right">
+            {% if islogin %}
+            <li>
+              <p class="navbar-text">你好 {{username}}</p>
+            </li>
+            <li>
+              <a href="#" data-toggle="tooltip" data-placement="bottom" title="帮助">
+                <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
+              </a>
+            </li>
+            <li>
+              <a href="#" data-toggle="tooltip" data-placement="bottom" title="添加">
+                <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
+              </a>
+            </li>
+            <li>
+              <a href="/dashboard" data-toggle="tooltip" data-placement="bottom" title="用户">
+                <span class="glyphicon glyphicon-user" aria-hidden="true"></span>
+              </a>
+            </li>
+            <li>
+              <a href="#" data-toggle="tooltip" data-placement="bottom" title="设置">
+                <span class="glyphicon glyphicon-cog" aria-hidden="true"></span>
+              </a>
+            </li>
+            <li>
+              <a href="#" data-toggle="tooltip" data-placement="bottom" title="注销" id="logout">
+                <span class="glyphicon glyphicon-log-out" aria-hidden="true"></span>
+              </a>
+            </li>
+            {% else %}
+            <li>
+              <a href="/" data-toggle="tooltip" data-placement="bottom" title="登录" id="logout">
+                <span class="glyphicon glyphicon-log-out" aria-hidden="true"></span>
+              </a>
+            </li>
+            {% endif %}
+          </ul>
+
+          <form class="navbar-form navbar-right" role="search">
+            <div class="input-group">
+              <input type="text" class="form-control" placeholder="Search">
+              <span class="input-group-btn">
+                <button class="btn btn-default">
+                  <span class="glyphicon glyphicon-search" aria-hidden="true"></span>
+                </button>
+              </span>
+            </div>
+          </form>
+        </div>
+      </div>
+    </nav>
+
+    <div class="container">
+      <div class="carousel slide" data-ride="carousel" id="slide">
+        <ol class="carousel-indicators">
+          <li data-target="#slide" data-slide-to="0" class="active"></li>
+          <li data-target="#slide" data-slide-to="1"></li>
+          <li data-target="#slide" data-slide-to="2"></li>
+        </ol>
+
+        <div class="carousel-inner" role="listbox">
+          <div class="item active">
+            <img src="/static/img/mstczhaoxin.jpg">
+            <div class="carousel-caption">
+             哈哈
+            </div>
+          </div>
+          <div class="item">
+            <img src="/static/img/ziyuangongxiang.jpg">
+            <div class="carousel-caption">
+              呵呵
+            </div>
+          </div>
+          <div class="item">
+            <img src="/static/img/ziyuangongxiang.jpg">
+
+          </div>
+        </div>
+
+        <a class="left carousel-control" href="#slide" role="button" data-slide="prev">
+          <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
+        </a>
+        <a class="right carousel-control" href="#slide" role="button" data-slide="next">
+          <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
+        </a>
+      </div>
+      <div class="col-md-2 col-md-offset-5" style="background:#CCCCCC;cursor:pointer;" id="slidehide">
+        <center>
+          <a><span class="glyphicon glyphicon-chevron-up" aria-hidden="true" id="chevron"></span>
+          <span class="help-text">隐藏</span></a>
+        </center>
+      </div>
+    </div>
+    <br><br>
+    <div class="container">
+      <div class="row">
+        <div class="col-md-8">
+          <div class="panel panel-default">
+            <div class="panel-heading">
+              <h4>新闻动态</h4>
+            </div>
+            <div class="panel-body">
+              <p>啊哈哈哈哈哈哈</p>
+            </div>
+
+            <ul class="list-group">
+              <li class="list-group-item">One</li>
+              <li class="list-group-item">Two</li>
+              <li class="list-group-item">One</li>
+              <li class="list-group-item">Two</li>
+              <li class="list-group-item">One</li>
+              <li class="list-group-item">Two</li>
+            </ul>
+          </div>
+          <div class="panel panel-default">
+            <div class="panel-heading">
+              <h4>技术贴</h4>
+            </div>
+            <div class="panel-body">
+              <div class="col-md-4">
+                <div class="panel panel-default">
+                  <div class="panel-body">
+                    <img src="/static/img/5.png" width="100%">
+                    <hr>
+                    周杰伦加盟第四季中国好声音
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-4">
+                <div class="panel panel-default">
+                  <div class="panel-body">
+                    <img src="/static/img/5.png" width="100%">
+                    <hr>
+                    周杰伦加盟第四季中国好声音
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-4">
+                <div class="panel panel-default">
+                  <div class="panel-body">
+                    <img src="/static/img/5.png" width="100%">
+                    <hr>
+                    周杰伦加盟第四季中国好声音
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-4">
+                <div class="panel panel-default">
+                  <div class="panel-body">
+                    <img src="/static/img/5.png" width="100%">
+                    <hr>
+                    周杰伦加盟第四季中国好声音
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-4">
+                <div class="panel panel-default">
+                  <div class="panel-body">
+                    <img src="/static/img/5.png" width="100%">
+                    <hr>
+                    周杰伦加盟第四季中国好声音
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-4">
+          <div class="panel panel-default">
+            <div class="panel-heading">
+              <h4>便捷查询</h4>
+            </div>
+            <div class="panel-body">
+              <form class="form-horizontal" onsubmit="return false;">
+                <div>
+                  <ul class="nav nav-tabs" role="tablist">
+                    <li role="presentation" class="active">
+                      <a href="#nameform" aria-controls="nameform" role="tab" data-toggle="tab">查姓名</a>
+                    </li>
+                    <li role="presentation">
+                      <a href="#studentidform" aria-controls="studentidform" role="tab" data-toggle="tab">查学号</a>
+                    </li>
+                    <li role="presentation">
+                      <a href="#phoneform" aria-controls="phoneform" role="tab" data-toggle="tab">查电话</a>
+                    </li>
+                  </ul>
+                  <br>
+                  <div class="tab-content">
+                    <div role="tabpanel" class="tab-pane fade in active" id="nameform">
+                      <input type="text" class="form-control" id="name" placeholder="姓名">
+                    </div>
+                    <div role="tabpanel" class="tab-pane fade" id="studentidform">
+                      <input type="text" class="form-control" id="studentid" placeholder="学号">
+                    </div>
+                    <div role="tabpanel" class="tab-pane fade" id="phoneform">
+                      <input type="text" class="form-control" id="phone" placeholder="电话">
+                    </div>
+                  </div>
+                </div>
+                <br>
+                <center><button class="btn btn-primary">查询</button></center>
+              </form>
+            </div>
+          </div>
+
+          <div class="panel panel-default">
+            <div class="panel-heading">
+              <h4>热门活动</h4>
+            </div>
+            <ul class="list-group">
+              <li class="list-group-item">One</li>
+              <li class="list-group-item">Two</li>
+              <li class="list-group-item">One</li>
+              <li class="list-group-item">Two</li>
+              <li class="list-group-item">One</li>
+              <li class="list-group-item">Two</li>
+            </ul>
+          </div>
+
+          <div class="panel panel-default">
+            <div class="panel-heading">
+              <h4>联系我们</h4>
+            </div>
+            <div class="panel-body">
+              <a href="mailto:664587718@qq.com">你阳哥</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="container">
+      <div class="row">
+        <div class="col-md-10 col-md-offset-1">
+          <div class="carousel slide" data-ride="carousel" id="qrslide">
+            <div class="carousel-inner" role="listbox">
+              <div class="item active">
+                <div class="row">
+                  <div class="col-md-10 col-md-offset-1">
+                    <div class="col-md-3">
+                      <div class="thumbnail">
+                        <img src="/static/img/5.png">
+                        <div class="caption">
+                          <h5>移动信息工程学院学生会</h5>
+                          <p>这里是移动信息工程学院</p>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="col-md-3">
+                      <div class="thumbnail">
+                        <img src="/static/img/5.png">
+                        <div class="caption">
+                          <h5>移动信息工程学院学生会</h5>
+                          <p>这里是移动信息工程学院</p>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="col-md-3">
+                      <div class="thumbnail">
+                        <img src="/static/img/5.png">
+                        <div class="caption">
+                          <h5>移动信息工程学院学生会</h5>
+                          <p>这里是移动信息工程学院</p>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="col-md-3">
+                      <div class="thumbnail">
+                        <img src="/static/img/5.png">
+                        <div class="caption">
+                          <h5>移动信息工程学院学生会</h5>
+                          <p>这里是移动信息工程学院</p>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="item">
+                <div class="row">
+                  <div class="col-md-10 col-md-offset-1">
+                    <div class="col-md-3">
+                      <div class="thumbnail">
+                        <img src="/static/img/5.png">
+                        <div class="caption">
+                          <h5>移动信息工程学院学生会</h5>
+                          <p>这里是移动信息工程学院</p>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="col-md-3">
+                      <div class="thumbnail">
+                        <img src="/static/img/5.png">
+                        <div class="caption">
+                          <h5>移动信息工程学院学生会</h5>
+                          <p>这里是移动信息工程学院</p>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="col-md-3">
+                      <div class="thumbnail">
+                        <img src="/static/img/5.png">
+                        <div class="caption">
+                          <h5>移动信息工程学院学生会</h5>
+                          <p>这里是移动信息工程学院</p>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="col-md-3">
+                      <div class="thumbnail">
+                        <img src="/static/img/5.png">
+                        <div class="caption">
+                          <h5>移动信息工程学院学生会</h5>
+                          <p>这里是移动信息工程学院</p>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="item">
+                <div class="row">
+                  <div class="col-md-10 col-md-offset-1">
+                    <div class="col-md-3">
+                      <div class="thumbnail">
+                        <img src="/static/img/5.png">
+                        <div class="caption">
+                          <h5>移动信息工程学院学生会</h5>
+                          <p>这里是移动信息工程学院</p>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="col-md-3">
+                      <div class="thumbnail">
+                        <img src="/static/img/5.png">
+                        <div class="caption">
+                          <h5>移动信息工程学院学生会</h5>
+                          <p>这里是移动信息工程学院</p>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="col-md-3">
+                      <div class="thumbnail">
+                        <img src="/static/img/5.png">
+                        <div class="caption">
+                          <h5>移动信息工程学院学生会</h5>
+                          <p>这里是移动信息工程学院</p>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="col-md-3">
+                      <div class="thumbnail">
+                        <img src="/static/img/5.png">
+                        <div class="caption">
+                          <h5>移动信息工程学院学生会</h5>
+                          <p>这里是移动信息工程学院</p>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <a class="left carousel-control qrhref" href="#qrslide" role="button" data-slide="prev">
+              <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
+            </a>
+            <a class="right carousel-control qrhref" href="#qrslide" role="button" data-slide="next">
+              <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
+            </a>
+          </div>
+          
+        </div>
+      </div>
+    </div>
+
+    <footer>
+      <hr>
+      <span class="text-center help-block">
+        &copy X All rights reserved
+      </span>
+    </footer>
+  </body>
+  
+
+</html>

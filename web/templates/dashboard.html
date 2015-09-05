@@ -1,0 +1,551 @@
+<!DOCTYPE html>
+<html lang="zh-CN" style="overflow-y: visible;">
+  <head>
+    <title>Hello World</title>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=0" />
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <link href="/static/css/bootstrap.min.css" rel="stylesheet" media="screen">
+    <script src="/static/js/jquery.min.js"></script>
+    <script src="/static/js/bootstrap.min.js"></script>
+    <style type="text/css">
+      .test{
+        background: url("/static/img/5.png") no-repeat scroll 0 0px transparent;
+        width: 100%;
+        height: 160px;
+      }
+      .xie{
+        position: absolute;
+        top: 0px;
+        right: 15px;
+        width: 100px;
+        height: 100px;
+        background-image:url("/static/img/xie.png");
+        z-index:1000;
+      }
+    </style>
+    <script type="text/javascript">
+      $(document).ready(function(){
+        $('[data-toggle="tooltip"]').tooltip();
+      });
+    </script>
+  </head>
+  <body>
+    <nav class="navbar navbar-default">
+      <div class="container">
+        <div class="navbar-header">
+          <button class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navitem" aria-expanded="false">
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="navbar-brand" href="#">Brand</a>
+        </div>
+
+        <div class="collapse navbar-collapse" id="navitem">
+          <ul class="nav navbar-nav">
+            <li class="active">
+              <a href="#">首页</a>
+            </li>
+            <li>
+              <a href="#">活动中心</a>
+            </li>
+            <li>
+              <a href="#">资源平台</a>
+            </li>
+          </ul>
+
+          <ul class="nav navbar-nav navbar-right">
+            <li>
+              <p class="navbar-text">你好 曾兆阳</p>
+            </li>
+            <li>
+              <a href="#" data-toggle="tooltip" data-placement="bottom" title="帮助">
+                <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
+              </a>
+            </li>
+            <li>
+              <a href="#" data-toggle="tooltip" data-placement="bottom" title="添加">
+                <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
+              </a>
+            </li>
+            <li>
+              <a href="#" data-toggle="tooltip" data-placement="bottom" title="用户">
+                <span class="glyphicon glyphicon-user" aria-hidden="true"></span>
+              </a>
+            </li>
+            <li>
+              <a href="#" data-toggle="tooltip" data-placement="bottom" title="设置">
+                <span class="glyphicon glyphicon-cog" aria-hidden="true"></span>
+              </a>
+            </li>
+            <li>
+              <a href="#" data-toggle="tooltip" data-placement="bottom" title="注销">
+                <span class="glyphicon glyphicon-log-out" aria-hidden="true"></span>
+              </a>
+            </li>
+            
+          </ul>
+
+          <form class="navbar-form navbar-right" role="search">
+            <div class="input-group">
+              <input type="text" class="form-control" placeholder="Search">
+              <span class="input-group-btn">
+                <button class="btn btn-default">
+                  <span class="glyphicon glyphicon-search" aria-hidden="true"></span>
+                </button>
+              </span>
+            </div>
+          </form>
+        </div>
+      </div>
+    </nav>
+    <div class="container">
+      <div class="col-md-3">
+        <br>
+        <ul class="list-group">
+          <a  href="#profile" aria-controls="profile" data-toggle="tab" class="list-group-item list-group-item-default active">
+            个人信息<span class="glyphicon glyphicon-chevron-right" aria-hidden="true" style="float:right;"></span>
+          </a>
+          <a class="list-group-item list-group-item-default">
+            发表文章<span class="glyphicon glyphicon-chevron-right" aria-hidden="true" style="float:right;"></span>
+          </a>
+          <a href="#addactivity" aria-controls="addactivity" data-toggle="tab" class="list-group-item list-group-item-default">
+            添加活动<span class="glyphicon glyphicon-chevron-right" aria-hidden="true" style="float:right;"></span>
+          </a>
+          <a href="#myactivity" aria-controls="myactivity" data-toggle="tab" class="list-group-item list-group-item-default">
+            我的活动<span class="glyphicon glyphicon-chevron-right" aria-hidden="true" style="float:right;"></span>
+          </a>
+          <a class="list-group-item list-group-item-default">
+            系统设置<span class="glyphicon glyphicon-chevron-right" aria-hidden="true" style="float:right;"></span>
+          </a>
+        </ul>
+      </div>
+      <div class="col-md-9">
+        <div class="tab-content">
+          <div class="tab-pane fade" id="addactivity">
+            <div class="alert alert-success" role="alert">
+              <strong>Hello world</strong>您可以再次添加活动
+            </div>
+            <ol class="breadcrumb">
+              <li><a href="#">Home</a></li>
+              <li><a href="#">Library</a></li>
+              <li class="active">Data</li>
+            </ol>
+            <div class="panel panel-default">
+              <div class="panel-body">
+                <form class="form-horizontal" onsubmit="return false;">
+                  <div class="form-group">
+                    <label for="title" class="col-sm-2 control-label">活动标题：</label>
+                    <div class="col-sm-10">
+                      <input type="text" class="form-control" id="title">
+                    </div>
+                  </div>
+
+                  <div class="form-group">
+                    <label for="introduction" class="col-sm-2 control-label">活动简介：</label>
+                    <div class="col-sm-10">
+                      <textarea class="form-control" rows="6" id="introduction">
+                      </textarea>
+                    </div>
+                  </div>
+
+                  <div class="form-group">
+                    <label class="col-sm-2 control-label">主办方：</label>
+                    <div class="col-sm-10">
+                      <p class="form-control-static">移动信息工程学院</p>
+                    </div>
+                  </div>
+
+                  <div class="form-group">
+                    <label for="startyear" class="col-sm-2 control-label">活动开始时间：</label>
+                    <div class="col-sm-10">
+                      <div class="input-group">
+                        <select type="text" class="form-control" id="startyear">
+                          <option>2015</option>
+                          <option>2016</option>
+                          <option>2017</option>
+                          <option>2018</option>
+                          <option>2019</option>
+                        </select>
+                        <div class="input-group-addon">年</div>
+                        <select type="text" class="form-control" id="startmonth">
+                          <option>1</option>
+                          <option>2</option>
+                          <option>3</option>
+                          <option>4</option>
+                          <option>5</option>
+                          <option>6</option>
+                          <option>7</option>
+                          <option>8</option>
+                          <option>9</option>
+                          <option>10</option>
+                          <option>11</option>
+                          <option>12</option>
+                        </select>
+                        <div class="input-group-addon">月</div>
+                        <select type="text" class="form-control" id="startday">
+                          <option>1</option>
+                          <option>2</option>
+                        </select>
+                        <div class="input-group-addon">日</div>
+                        <select type="text" class="form-control" id="starthour">
+                          <option>0</option>
+                          <option>1</option>
+                        </select>
+                        <div class="input-group-addon">时</div>
+                        <select type="text" class="form-control" id="startminute">
+                          <option>0</option>
+                          <option>1</option>
+                        </select>
+                        <div class="input-group-addon">分</div>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="form-group">
+                    <span class="help-block col-sm-offset-2">&nbsp;&nbsp;&nbsp;&nbsp;若无具体开始时间，请将时分置空</span>
+                  </div>
+
+                  <div class="form-group">
+                    <label for="endyear" class="col-sm-2 control-label">活动结束时间：</label>
+                    <div class="col-sm-10">
+                      <div class="input-group">
+                        <select type="text" class="form-control" id="endyear">
+                          <option>2015</option>
+                          <option>2016</option>
+                          <option>2017</option>
+                          <option>2018</option>
+                          <option>2019</option>
+                        </select>
+                        <div class="input-group-addon">年</div>
+                        <select type="text" class="form-control" id="endmonth">
+                          <option>1</option>
+                          <option>2</option>
+                          <option>3</option>
+                          <option>4</option>
+                          <option>5</option>
+                          <option>6</option>
+                          <option>7</option>
+                          <option>8</option>
+                          <option>9</option>
+                          <option>10</option>
+                          <option>11</option>
+                          <option>12</option>
+                        </select>
+                        <div class="input-group-addon">月</div>
+                        <select type="text" class="form-control" id="endday">
+                          <option>1</option>
+                          <option>2</option>
+                        </select>
+                        <div class="input-group-addon">日</div>
+                        <select type="text" class="form-control" id="endhour">
+                          <option>0</option>
+                          <option>1</option>
+                        </select>
+                        <div class="input-group-addon">时</div>
+                        <select type="text" class="form-control" id="endminute">
+                          <option>0</option>
+                          <option>1</option>
+                        </select>
+                        <div class="input-group-addon">分</div>
+                      </div>
+                    </div>
+                  </div>
+                  
+                  <div class="form-group">
+                    <span class="help-block col-sm-offset-2">&nbsp;&nbsp;&nbsp;&nbsp;若无具体结束时间，请将所有空置空</span>
+                  </div>
+
+                  <div class="form-group">
+                    <label for="attendtype" class="col-sm-2 control-label">单位形式：</label>
+                    <div class="col-sm-2">
+                      <select class="form-control" id="attendtype">
+                        <option>个人</option>
+                        <option>组队</option>
+                      </select>
+                    </div>
+                  </div>
+
+                  <div class="form-group">
+                    <label for="teampeoplenum" class="col-sm-2 control-label">队员人数限制：</label>
+                    <div class="col-sm-2">
+                      <input type="text" class="form-control" id="teampeoplenum">
+                    </div>
+                  </div>
+
+                  <div class="form-group">
+                    <label for="peoplenum" class="col-sm-2 control-label">队伍数限制：</label>
+                    <div class="col-sm-2">
+                      <input type="text" class="form-control" id="peoplenum">
+                    </div>
+                    <span class="help-block col-sm-offset-2">若无人数限制，请填“0”</span>
+                  </div>
+
+                  <div class="form-group">
+                    <label for="filter" class="col-sm-2 control-label">筛选方式：</label>
+                    <div class="col-sm-2">
+                      <select class="form-control" id="filter">
+                        <option>先到先得</option>
+                        <option>随机筛选</option>
+                        <option>工作人员筛选</option>
+                      </select>
+                    </div>
+                  </div>
+
+                  <div class="form-group">
+                    <label for="bstartyear" class="col-sm-2 control-label">报名开始时间：</label>
+                    <div class="col-sm-10">
+                      <div class="input-group">
+                        <select type="text" class="form-control" id="startyear">
+                          <option>2015</option>
+                          <option>2016</option>
+                          <option>2017</option>
+                          <option>2018</option>
+                          <option>2019</option>
+                        </select>
+                        <div class="input-group-addon">年</div>
+                        <select type="text" class="form-control" id="bstartmonth">
+                          <option>1</option>
+                          <option>2</option>
+                          <option>3</option>
+                          <option>4</option>
+                          <option>5</option>
+                          <option>6</option>
+                          <option>7</option>
+                          <option>8</option>
+                          <option>9</option>
+                          <option>10</option>
+                          <option>11</option>
+                          <option>12</option>
+                        </select>
+                        <div class="input-group-addon">月</div>
+                        <select type="text" class="form-control" id="bstartday">
+                          <option>1</option>
+                          <option>2</option>
+                        </select>
+                        <div class="input-group-addon">日</div>
+                        <select type="text" class="form-control" id="bstarthour">
+                          <option>0</option>
+                          <option>1</option>
+                        </select>
+                        <div class="input-group-addon">时</div>
+                        <select type="text" class="form-control" id="bstartminute">
+                          <option>0</option>
+                          <option>1</option>
+                        </select>
+                        <div class="input-group-addon">分</div>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="form-group">
+                    <label for="bendyear" class="col-sm-2 control-label">报名结束时间：</label>
+                    <div class="col-sm-10">
+                      <div class="input-group">
+                        <select type="text" class="form-control" id="bendyear">
+                          <option>2015</option>
+                          <option>2016</option>
+                          <option>2017</option>
+                          <option>2018</option>
+                          <option>2019</option>
+                        </select>
+                        <div class="input-group-addon">年</div>
+                        <select type="text" class="form-control" id="bendmonth">
+                          <option>1</option>
+                          <option>2</option>
+                          <option>3</option>
+                          <option>4</option>
+                          <option>5</option>
+                          <option>6</option>
+                          <option>7</option>
+                          <option>8</option>
+                          <option>9</option>
+                          <option>10</option>
+                          <option>11</option>
+                          <option>12</option>
+                        </select>
+                        <div class="input-group-addon">月</div>
+                        <select type="text" class="form-control" id="bendday">
+                          <option>1</option>
+                          <option>2</option>
+                        </select>
+                        <div class="input-group-addon">日</div>
+                        <select type="text" class="form-control" id="bendhour">
+                          <option>0</option>
+                          <option>1</option>
+                        </select>
+                        <div class="input-group-addon">时</div>
+                        <select type="text" class="form-control" id="bendminute">
+                          <option>0</option>
+                          <option>1</option>
+                        </select>
+                        <div class="input-group-addon">分</div>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="form-group">
+                    <label for="fuzeren" class="col-sm-2 control-label">活动负责人：</label>
+                    <div class="col-sm-2">
+                      <input type="text" class="form-control" id="fuzeren">
+                    </div>
+
+                    <label for="fuzerenphone" class="col-sm-3 control-label">负责人联系方式：</label>
+                    <div class="col-sm-2">
+                      <input type="text" class="form-control" id="fuzerenphone">
+                    </div>
+                  </div>
+
+                  <div class="form-group">
+                    <label for="poster" class="col-sm-2 control-label">活动海报：</label>
+                    <div class="col-sm-2">
+                      <input type="file" id="poster">
+                    </div>
+                  </div>
+
+                  <div class="form-group">
+                    <label class="col-sm-2 control-label">附加问题：</label>
+                    <div class="col-sm-2">
+                      <button class="form-control-static btn btn-primary" data-toggle="tooltip" data-placement="right" title="添加附加问题">
+                          <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
+                      </button>
+                    </div>
+                  </div>
+
+                  <center>
+                    <button class="btn btn-primary">
+                      提交
+                    </button>
+                    <button class="btn btn-success">
+                      重置
+                    </button>
+                  </center>
+
+                </form>
+              </div>
+            </div>
+          </div>
+
+          <div class="tab-pane fade" id="myactivity">
+            <div class="alert alert-success" role="alert">
+              <strong>Hello world</strong>您可以再次添加活动
+            </div>
+            <ol class="breadcrumb">
+              <li><a href="#">Home</a></li>
+              <li><a href="#">Library</a></li>
+              <li class="active">Data</li>
+            </ol>
+            <div class="col-md-6">
+              <div class="panel panel-default">
+                <div class="xie">
+                </div>
+                <div class="panel-heading">
+                  <h4>活动一</h4>
+                </div>
+                <div class="panel-body">
+                  <div class="test">
+                  </div>
+                  <hr>
+                  <h5>活动时间：</h5>
+                  <p>&nbsp;&nbsp;2015年6月30日21:00~2015年6月30日22:00</p>
+                  <h5>报名时间：</h5>
+                  <p>&nbsp;&nbsp;2015年6月20日21:00~2015年6月20日22:00</p>
+                  <h5>目前报名人数：</h5>
+                  <p>&nbsp;&nbsp;100</p>
+                </div>
+              </div>
+            </div>
+
+            <div class="col-md-6">
+              <div class="panel panel-default">
+                <div class="xie">
+                </div>
+                <div class="panel-heading">
+                  <h4>活动一</h4>
+                </div>
+                <div class="panel-body">
+                  <div class="test">
+                  </div>
+                  <hr>
+                  <h5>活动时间：</h5>
+                  <p>&nbsp;&nbsp;2015年6月30日21:00~2015年6月30日22:00</p>
+                  <h5>报名时间：</h5>
+                  <p>&nbsp;&nbsp;2015年6月20日21:00~2015年6月20日22:00</p>
+                  <h5>目前报名人数：</h5>
+                  <p>&nbsp;&nbsp;100</p>
+                </div>
+              </div>
+            </div>
+
+            <div class="col-md-6">
+              <div class="panel panel-default">
+                <div class="xie">
+                </div>
+                <div class="panel-heading">
+                  <h4>活动一</h4>
+                </div>
+                <div class="panel-body">
+                  <div class="test">
+                  </div>
+                  <hr>
+                  <h5>活动时间：</h5>
+                  <p>&nbsp;&nbsp;2015年6月30日21:00~2015年6月30日22:00</p>
+                  <h5>报名时间：</h5>
+                  <p>&nbsp;&nbsp;2015年6月20日21:00~2015年6月20日22:00</p>
+                  <h5>目前报名人数：</h5>
+                  <p>&nbsp;&nbsp;100</p>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="tab-pane fade in active" id="profile">
+            <div class="alert alert-success" role="alert">
+              <strong>Hello world</strong>您可以再次添加活动
+            </div>
+            <ol class="breadcrumb">
+              <li><a href="#">Home</a></li>
+              <li><a href="#">Library</a></li>
+              <li class="active">Data</li>
+            </ol>
+
+            <div class="col-md-4">
+              <div style="font-size:16px">
+                <p><strong>姓名： </strong>曾兆阳</p>
+                <p><strong>性别： </strong>程序猿</p>
+                <p><strong>学号： </strong>12353255</p>
+                <p><strong>班级： </strong>1211</p>
+                <p><strong>长号： </strong>13631252971</p>
+                <p><strong>短号： </strong>612971</p>
+                <p><strong>邮箱： </strong>664587718@qq.com</p>
+                <p><strong>&nbsp;&nbsp;QQ： </strong>664587718</p>
+              </div>
+            </div>
+            <div class="col-md-4">
+              <div style="font-size:16px">
+                <p>哥参与了&nbsp;10&nbsp;次活动</p>
+                <p>哥发表了&nbsp;10&nbsp;篇帖子</p>
+                <p>
+              </div>
+            </div>
+            <div class="col-md-4">
+              <img src="/static/img/zengzhaoyang.jpg" width="100%">
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+    <footer>
+      <hr>
+      <span class="text-center help-block">
+        &copy X All rights reserved
+      </span>
+    </footer>
+  </body>
+  
+
+</html>
