@@ -32,7 +32,7 @@ def add_activity(data):
         activity_member.insert({
             'activityid':str(now_id),
             'member':[],
-            'attendtype':attendtype
+            'attendtype':attendtype,
             'peoplenum':data['peoplenum']}
         )
     return str(now_id)
@@ -141,7 +141,7 @@ def update_attend_activity(activity_attend, activityid, username, op):
         if one == None:
             activity_attend.insert({'username':username, 'activitylist':[activityid]})
         else:
-            activity_attend.update({'username':username, {'$push':{'activitylist':activityid}}})
+            activity_attend.update({'username':username}, {'$push':{'activitylist':activityid}})
     elif op == 2:
         activity_attend.update({'username':username}, {'$pull':{'activitylist':activityid}})
 
@@ -227,7 +227,7 @@ def signdown_person(activityid, username):
         return 1
 
     peoplenum = one['peoplenum']
-    activity_member.update({'activityid':activityid,{'$pull':{'member':username}}})
+    activity_member.update({'activityid':activityid},{'$pull':{'member':username}})
     update_attend_activity(activity_attend, activityid, username, 2)
     if peoplenum != -1:
         one = activity.find_one({'activityid':activityid})
@@ -281,7 +281,7 @@ def signup_team(activityid, username, usernum, userlist):
                 one = activity.find_one({'activityid':activityid})
                 seat = one['seat']
                 activity.update(one, {'$set':{'seat':seat+1}})
-            activity_member.update({'activityid':activityid,{'$push':{'member':{'leader':useranme, 'teameat':userlist}}})
+            activity_member.update({'activityid':activityid},{'$push':{'member':{'leader':useranme, 'teameat':userlist}}})
             for item in userlist:
                 update_attend_activity(activity_attend, activityid, username, 1)
         else:
@@ -334,7 +334,7 @@ def signdown_team(activityid, username):
         return 6
 
     teamnum = one['teamnum']
-    activity_member.update({'activityid':activityid, {'$pull':{'member':team}}})
+    activity_member.update({'activityid':activityid}, {'$pull':{'member':team}})
     for item in team['teameat']:
         update_attend_activity(activity_attend, activityid, username, 2)
     if teamnum != -1:

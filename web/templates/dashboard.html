@@ -24,10 +24,96 @@
         background-image:url("/static/img/xie.png");
         z-index:1000;
       }
+      .append-close{
+        background-color: #E63D3D !important;
+        border-color: #E63D3D !important;
+        color: white !important; 
+      }
+      .append-addon{
+        cursor:pointer;
+      }
     </style>
     <script type="text/javascript">
       $(document).ready(function(){
         $('[data-toggle="tooltip"]').tooltip();
+        var appendnum=0;
+        $(document).on("mouseenter",".append-addon",function(){
+          $(this).addClass("append-close");
+        });
+        $(document).on("mouseleave",".append-addon",function(){
+          $(this).removeClass("append-close");
+        });
+        $(document).on("click",".append-addon",function(){
+          $(this).parent().parent().remove();
+          appendnum--;
+        });
+
+        $("#appendproblem").click(function(){
+          var addstr='<div><div class="input-group"><input type="text" class="form-control append-input"><div class="append-addon input-group-addon"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></div></div><br></div>';
+          $("#appendproblem").before(addstr);
+          appendnum++;
+        });
+
+        $("#activitysubmit").click(function(){
+          var para={};
+          para["title"]=$("#title").val();
+          para["description"]=$("#description").val();
+          para["startyear"]=$("#startyear").val();
+          para["startmonth"]=$("#startmonth").val();
+          para["startday"]=$("#startday").val();
+          para["starthour"]=$("#starthour").val();
+          para["startminute"]=$("#startminute").val();
+          para["endyear"]=$("#endyear").val();
+          para["endmonth"]=$("#endmonth").val();
+          para["endday"]=$("#endday").val();
+          para["endhour"]=$("#endhour").val();
+          para["endminute"]=$("#endminute").val();
+          var attendtype=$("#attendtype").val();
+          if(attendtype=="个人")
+            para["attendtype"]=0;
+          else
+            para["attendtype"]=1;
+          if(para["attendtype"]==1){
+            para["teampeoplenum"]=$("#teampeoplenum").val();
+            para["teamnum"]=$("#teamnum").val();
+          }
+          else{
+            para["peoplenum"]=$("#peoplenum").val();
+          }
+          var filter=$("#filter").val();
+          if(filter=="先到先得")
+            para["filter"]=0;
+          else if(filter=="随机筛选")
+            para["filter"]=1;
+          else
+            para["filter"]=2;
+          para["bstartyear"]=$("#bstartyear").val();
+          para["bstartmonth"]=$("#bstartmonth").val();
+          para["bstartday"]=$("#bstartday").val();
+          para["bstarthour"]=$("#bstarthour").val();
+          para["bstartminute"]=$("#bstartminute").val();
+          para["bendyear"]=$("#bendyear").val();
+          para["bendmonth"]=$("#bendmonth").val();
+          para["bendday"]=$("#bendday").val();
+          para["bendhour"]=$("#bendhour").val();
+          para["bendminute"]=$("#bendminute").val();
+          para["fuzeren"]=$("#fuzeren").val();
+          para["fuzerenphone"]=$("#fuzerenphone").val();
+          if($("#poster").val()=="")
+            para["poster"]=0;
+          else
+            para["poster"]=1;
+          var appendproblem=$(".append-input");
+          para["appendproblem"]=appendproblem.length;
+          if(appendproblem.length!=0){
+            appendproblemlist=[];
+            for(var i=0;i<appendproblem.length;i++){
+              appendproblemlist[i]=appendproblem[i].value;
+            }
+            alert(appendproblemlist);
+          }
+        });
+
       });
     </script>
   </head>
@@ -407,18 +493,18 @@
 
                   <div class="form-group">
                     <label class="col-sm-2 control-label">附加问题：</label>
-                    <div class="col-sm-2">
-                      <button class="form-control-static btn btn-primary" data-toggle="tooltip" data-placement="right" title="添加附加问题">
+                    <div class="col-sm-10" id="appendlist">
+                      <button class="form-control-static btn btn-primary" data-toggle="tooltip" data-placement="right" title="添加附加问题" id="appendproblem">
                           <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
                       </button>
                     </div>
                   </div>
 
                   <center>
-                    <button class="btn btn-primary">
+                    <button class="btn btn-primary" id="activitysubmit">
                       提交
                     </button>
-                    <button class="btn btn-success">
+                    <button class="btn btn-success" id="activityreset">
                       重置
                     </button>
                   </center>
