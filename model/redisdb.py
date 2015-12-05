@@ -3,4 +3,4 @@
 class RedisDB:
     def __init__(self):
         from redis import Redis
-        self.con = Redis('localhost')
+        self.con = Redis('192.168.239.131')

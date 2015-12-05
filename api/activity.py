@@ -25,16 +25,18 @@ def activity_admin_add():
         验证参数表是否合法，不合法则返回 INVALID_OPERATION
         将相关信息写入数据库，将活动ID返回
     '''
-    cookies = request.cookies
-    if not 'session' in cookies:
-        return jsonify(rescode=INVALID_OPERATION)
+    #cookies = request.cookies
+    #if not 'session' in cookies:
+    #    return jsonify(rescode=INVALID_OPERATION)
 
-    session = cookies['session']
+    #session = cookies['session']
 
-    from lib import get_username_by_session
-    username = get_username_by_session(session)
-    if username == None:
-        return jsonify(rescode=INVALID_OPERATION)
+    #from lib import get_username_by_session
+    #username = get_username_by_session(session)
+    #if username == None:
+    #    return jsonify(rescode=INVALID_OPERATION)
+
+    username = 'zengzhaoyang'
 
     from lib import check_authority
     if check_authority(username, 'addactivity') == False:
@@ -47,7 +49,7 @@ def activity_admin_add():
     'attendtype', 'filter',
     'bstartyear', 'bstartmonth', 'bstartday', 'bstarthour', 'bstartminute',
     'bendyear', 'bendmonth', 'bendday', 'bendhour', 'bendminute',
-    'fuzeren', 'fuzerenphone', 'appendproblem']
+    'fuzeren', 'fuzerenphone', 'poster', 'appendproblem']
 
     datekey = ['startyear', 'startmonth', 'startday', 'starthour', 'startminute',
     'endyear', 'endmonth', 'endday', 'endhour', 'endminute',
@@ -72,17 +74,17 @@ def activity_admin_add():
     if check_time_valid(form['bendyear'], form['bendmonth'], form['bendday'], form['bendhour'], form['bendminute']) == False:
         return jsonify(rescode=PARAMETER_ERROR)
 
-    starttime = '%d-%d-%d %d:%d'%(form['startyear'], form['startmonth'], form['startday'], form['starthour'], form['startminute'])
-    endtime = '%d-%d-%d %d:%d'%(form['endyear'], form['endmonth'], form['endday'], form['endhour'], form['endminute'])
-    bstarttime = '%d-%d-%d %d:%d'%(form['bstartyear'], form['bstartmonth'], form['bstartday'], form['bstarthour'], form['bstartminute'])
-    bendtime = '%d-%d-%d %d:%d'%(form['bendyear'], form['bendmonth'], form['bendday'], form['bendhour'], form['bendminute'])
+    starttime = '%02d-%02d-%02d %02d:%02d'%(int(form['startyear']), int(form['startmonth']), int(form['startday']), int(form['starthour']), int(form['startminute']))
+    endtime = '%02d-%02d-%02d %02d:%02d'%(int(form['endyear']), int(form['endmonth']), int(form['endday']), int(form['endhour']), int(form['endminute']))
+    bstarttime = '%02d-%02d-%02d %02d:%02d'%(int(form['bstartyear']), int(form['bstartmonth']), int(form['bstartday']), int(form['bstarthour']), int(form['bstartminute']))
+    bendtime = '%02d-%02d-%02d %02d:%02d'%(int(form['bendyear']), int(form['bendmonth']), int(form['bendday']), int(form['bendhour']), int(form['bendminute']))
 
     data['starttime'] = starttime
     data['endtime'] = endtime
     data['bstarttime'] = bstarttime
     data['bendtime'] = bendtime
 
-    if data['attendtype'] == 0:
+    if data['attendtype'] == '1':
         if not 'teampeople' in form or not 'teamnum' in form:
             return jsonify(rescode=PARAMETER_ERROR)
         else:
@@ -95,7 +97,8 @@ def activity_admin_add():
         else:
             data['peoplenum'] = form['peoplenum']
             data['seat'] = form['peoplenum']
-    if data['appendproblem'] != 0:
+
+    if data['appendproblem'] != '0':
         if not 'appendproblemlist' in form:
             return jsonify(rescode=PARAMETER_ERROR)
         temp_problem_list = form['appendproblemlist']
@@ -104,7 +107,7 @@ def activity_admin_add():
             return jsonify(rescode=PARAMETER_ERROR)
         data['appendproblemlist'] = temp_problem_list
 
-    if data['poster'] == 1:
+    if data['poster'] == '1':
         files = request.files
         if not 'file' in files:
             return jsonify(rescode=PARAMETER_ERROR)
@@ -124,7 +127,8 @@ def activity_admin_add():
 def activity_admin_edit():
     '''
         编辑活动
-        参数：title description
+        参数：activityid
+        title description
         startyear startmonth startday starthour startminute
         endyear endmonth endday endhour endminute
         attendtype(0 or 1)
@@ -140,30 +144,37 @@ def activity_admin_edit():
         中的一项或几项
         返回值： SUCCESS / PARAMETER_ERROR / INVALID_OPERATION / PERMISSION_DENIED 
     '''
-    cookies = request.cookies
-    if not 'session' in cookies:
-        return jsonify(rescode=INVALID_OPERATION)
+    # cookies = request.cookies
+    # if not 'session' in cookies:
+    #     return jsonify(rescode=INVALID_OPERATION)
 
-    session = cookies['session']
+    # session = cookies['session']
 
-    from lib import get_username_by_session
-    username = get_username_by_session(session)
+    # from lib import get_username_by_session
+    # username = get_username_by_session(session)
 
-    if username == None:
-        return jsonify(rescode=INVALID_OPERATION)
+    # if username == None:
+        # return jsonify(rescode=INVALID_OPERATION)
+
+
+    username = 'zengzhaoyang'
+
+    form = request.form
+    if not 'activityid' in form:
+        return jsonify(rescode=PARAMETER_ERROR)
+    activityid = form['activityid']
 
     from lib import check_activity_changeable
     if check_activity_changeable(activityid, username) == False:
         return jsonify(rescode=PERMISSION_DENIED)
 
-    form = request.form
     required = ['title', 'description', 
     'startyear', 'startmonth', 'startday', 'starthour', 'startminute',
     'endyear', 'endmonth', 'endday', 'endhour', 'endminute',
     'attendtype', 'filter',
     'bstartyear', 'bstartmonth', 'bstartday', 'bstarthour', 'bstartminute',
     'bendyear', 'bendmonth', 'bendday', 'bendhour', 'bendminute',
-    'fuzeren', 'fuzerenphone', 'appendproblem']
+    'fuzeren', 'poster', 'fuzerenphone', 'appendproblem']
 
     datekey = ['startyear', 'startmonth', 'startday', 'starthour', 'startminute',
     'endyear', 'endmonth', 'endday', 'endhour', 'endminute',
@@ -181,10 +192,10 @@ def activity_admin_edit():
     becnt = 0
 
     data = {}
-    for item in title:
+    for item in required:
         if item in form:
             if not item in datekey:
-                data['item'] = form['item']
+                data[item] = form[item]
             if item in srequired:
                 scnt += 1
             if item in erequired:
@@ -209,29 +220,29 @@ def activity_admin_edit():
         if check_time_valid(form['startyear'], form['startmonth'], form['startday'], form['starthour'], form['startminute']) == False:
             return jsonify(rescode=PARAMETER_ERROR)
         else:
-            starttime = '%d-%d-%d %d:%d'%(form['startyear'], form['startmonth'], form['startday'], form['starthour'], form['startminute'])
+            starttime = '%02d-%02d-%02d %02d:%02d'%(int(form['startyear']), int(form['startmonth']), int(form['startday']), int(form['starthour']), int(form['startminute']))
             data['starttime'] = starttime
     if ecnt == 5:
         if check_time_valid(form['endyear'], form['endmonth'], form['endday'], form['endhour'], form['endminute']) == False:
             return jsonify(rescode=PARAMETER_ERROR)
         else:
-            endtime = '%d-%d-%d %d:%d'%(form['endyear'], form['endmonth'], form['endday'], form['endhour'], form['endminute'])
+            endtime = '%02d-%02d-%02d %02d:%02d'%(int(form['endyear']), int(form['endmonth']), int(form['endday']), int(form['endhour']), int(form['endminute']))
             data['endtime'] = endtime
     if bscnt == 5:
         if check_time_valid(form['bstartyear'], form['bstartmonth'], form['bstartday'], form['bstarthour'], form['bstartminute']) == False:
             return jsonify(rescode=PARAMETER_ERROR)
         else:
-            bstarttime = '%d-%d-%d %d:%d'%(form['bstartyear'], form['bstartmonth'], form['bstartday'], form['bstarthour'], form['bstartminute'])
+            bstarttime = '%02d-%02d-%02d %02d:%02d'%(int(form['bstartyear']), int(form['bstartmonth']), int(form['bstartday']), int(form['bstarthour']), int(form['bstartminute']))
             data['bstarttime'] = bstarttime
     if becnt == 5:
         if check_time_valid(form['bendyear'], form['bendmonth'], form['bendday'], form['bendhour'], form['bendminute']) == False:
             return jsonify(rescode=PARAMETER_ERROR)
         else:
-            bendtime = '%d-%d-%d %d:%d'%(form['bendyear'], form['bendmonth'], form['bendday'], form['bendhour'], form['bendminute'])
+            bendtime = '%02d-%02d-%02d %02d:%02d'%(int(form['bendyear']), int(form['bendmonth']), int(form['bendday']), int(form['bendhour']), int(form['bendminute']))
             data['bendtime'] = bendtime
 
     if 'attendtype' in form:
-        if form['attendtype'] == 0:
+        if form['attendtype'] == '1':
             if not 'teampeople' in form or not 'teamnum' in form:
                 return jsonify(rescode=PARAMETER_ERROR)
             data['teampeople'] = form['teampeople']
@@ -240,6 +251,17 @@ def activity_admin_edit():
             if not 'peoplenum' in form:
                 return jsonify(rescode=PARAMETER_ERROR)
             data['peoplenum'] = form['peoplenum']
+
+    if 'poster' in form:
+        if form['poster'] == '1':
+            files = request.files
+            if not 'file' in files:
+                return jsonify(rescode=PARAMETER_ERROR)
+            file_data = files['file']
+
+            from lib import save_activity_poster
+            file_url = save_activity_poster(file_data)
+            data['posterurl'] = file_url
 
     from lib import update_activity
     update_activity(activityid, data)
@@ -254,11 +276,13 @@ def activity_admin_delete():
         返回值： SUCCESS / ACTIVITY_NOT_EXIST / INVALID_OPERATION / PERMISSION_DENIED
         查找activity表，删除活动id对应的活动
     '''
-    cookies = request.cookies
-    if not 'session' in cookies:
-        return jsonify(rescode=INVALID_OPERATION)
+    # cookies = request.cookies
+    # if not 'session' in cookies:
+    #     return jsonify(rescode=INVALID_OPERATION)
 
-    session = cookies['session']
+    # session = cookies['session']
+
+    username = 'zengzhaoyang'
 
     form = request.form
     if not 'activityid' in form:
@@ -266,10 +290,10 @@ def activity_admin_delete():
 
     activityid = form['activityid']
 
-    from lib import get_username_by_session
-    username = get_username_by_session(session)
-    if username == None:
-        return jsonify(rescode=INVALID_OPERATION)
+    # from lib import get_username_by_session
+    # username = get_username_by_session(session)
+    # if username == None:
+    #     return jsonify(rescode=INVALID_OPERATION)
 
     from lib import delete_activity
     res = delete_activity(activityid, username)

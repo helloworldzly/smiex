@@ -50,12 +50,24 @@ def delete_activity(activityid, username):
     if one == None:
         return False
 
-    if one['owner'] != username:
+    if one['activitydata']['owner'] != username:
         return False
 
-    activity.remove(one)
+    activity.remove({'activityid':activityid})
     activity_member.remove({'activityid':activityid})
     return True
+
+def update_activity(activityid, data):
+    '''
+        更新活动信息
+    '''
+    from model.mongodb import MongoDB
+    db = MongoDB().db
+    activity = db.activity
+    update_data = {}
+    for item in data:
+        update_data['activitydata.' + item] = data[item]
+    activity.update({'activityid':activityid}, {'$set':update_data})
 
 def get_activity_by_id(activityid):
     '''
@@ -108,12 +120,12 @@ def check_activity_changeable(activityid, username):
 
     if one == None:
         return False
-    if one['owner'] != username:
+    if one['activitydata']['owner'] != username:
         return False
 
     import time
     nowtime = time.strftime("%Y-%m-%d %H:%M", time.localtime())
-    bstarttime = one['bstarttime']
+    bstarttime = one['activitydata']['bstarttime']
 
     if nowtime < bstarttime:
         return True

