@@ -85,7 +85,43 @@ def get_activity_by_id(activityid):
     for item in one:
         if item != '_id':
             data[item] = one[item]
+    print data
     return True, data
+
+def get_activity_list():
+    '''
+        查询活动id列表，返回信息包括 活动时间、报名时间、海报
+        #TODO 添加分页功能
+    '''
+    from model.mongodb import MongoDB
+    db = MongoDB().db
+    activity = db.activity
+    res = activity.find({})
+
+    ans = []
+    for item in res:
+        try:
+            temp = {
+                'title':item['activitydata']['title'],
+                'starttime':item['activitydata']['starttime'],
+                'endtime':item['activitydata']['endtime'],
+                'bstarttime':item['activitydata']['bstarttime'],
+                'bendtime':item['activitydata']['bendtime'],
+                'seat':item['activitydata']['seat'],
+                'activityid':item['activityid']
+                }
+            import time
+            nowtime = time.strftime("%Y-%m-%d %H:%M", time.localtime())
+            if nowtime < item['activitydata']['bstarttime']:
+                temp['state'] = '0'
+            elif nowtime >= item['activitydata']['bstarttime'] and nowtime <= item['activitydata']['bendtime']:
+                temp['state'] = '1'
+            else:
+                temp['state'] = '2'
+            ans.append(temp)
+        except:
+            pass
+    return ans
 
 def get_activity_member_by_id(activityid, username):
     '''
@@ -101,7 +137,7 @@ def get_activity_member_by_id(activityid, username):
     if one == None:
         return False, 0, 0
 
-    if one['owner'] != username:
+    if one['activitydata']['owner'] != username:
         return False, 0, 0
 
     one = activity_member.find_one({'activityid':activityid})
@@ -168,24 +204,28 @@ def signup_person(activityid, username):
     activity_attend = db.activity_attend
     activity_member = db.activity_member
 
-    one = activity_member.find_one({'activityid':activityid})
+    one = activity.find_one({'activityid':activityid})
 
     if one == None:
         return 1
 
     import time
     nowtime = time.strftime("%Y-%m-%d %H:%M", time.localtime())
-    bstarttime = one['bstarttime']
-    bendtime = one['bendtime']
+    bstarttime = one['activitydata']['bstarttime']
+    bendtime = one['activitydata']['bendtime']
 
     if nowtime < bstarttime:
         return 2
     if nowtime > bendtime:
         return 3
 
-    attendtype = one['attendtype']
+    attendtype = one['activitydata']['attendtype']
     if attendtype == 0:
         return 5
+
+    seat = one['activitydata']['seat']
+
+    one = activity_member.find_one({'activityid':activityid})
 
     member = one['member']
     
@@ -193,11 +233,11 @@ def signup_person(activityid, username):
         return 4
 
     peoplenum = one['peoplenum']
-    if peoplenum == -1 or len(member) < peoplenum:
-        if peoplenum != -1:
-            one = activity.find_one({'activityid':activityid})
-            seat = one['seat']
-            activity.update(one, {'$set':{'seat':seat-1}})
+    if peoplenum == 0 or len(member) < peoplenum:
+        if peoplenum != 0:
+            #one = activity.find_one({'activityid':activityid})
+            #seat = one['seat']
+            activity.update({'activityid':activityid}, {'$set':{'activitydata.seat':seat-1}})
         activity_member.update({'activityid':activityid},{'$push':{"member":username}})
         update_attend_activity(activity_attend, activityid, username, 1)
         return 0
@@ -214,24 +254,28 @@ def signdown_person(activityid, username):
     activity_attend = db.activity_attend
     activity_member = db.activity_member
 
-    one = activity_member.find_one({'activityid':activityid})
+    one = activity.find_one({'activityid':activityid})
 
     if one == None:
         return 4
 
     import time
     nowtime = time.strftime("%Y-%m-%d %H:%M", time.localtime())
-    bstarttime = one['bstarttime']
-    bendtime = one['bendtime']
+    bstarttime = one['activitydata']['bstarttime']
+    bendtime = one['activitydata']['bendtime']
 
     if nowtime < bstarttime:
         return 2
     if nowtime > bendtime:
         return 3
 
-    attendtype = one['attendtype']
+    attendtype = one['activitydata']['attendtype']
     if attendtype == 0:
         return 5
+
+    seat = one['activitydata']['seat']
+
+    one = activity_member.find_one({'activityid':activityid})
 
     member = one['member']
 
@@ -241,10 +285,8 @@ def signdown_person(activityid, username):
     peoplenum = one['peoplenum']
     activity_member.update({'activityid':activityid},{'$pull':{'member':username}})
     update_attend_activity(activity_attend, activityid, username, 2)
-    if peoplenum != -1:
-        one = activity.find_one({'activityid':activityid})
-        seat = one['seat']
-        activity.update(one, {'$set':{'seat':seat+1}})
+    if peoplenum != 0:
+        activity.update({'activityid':activityid}, {'$set':{'activitydata.seat':seat+1}})
     return 0
 
 def signup_team(activityid, username, usernum, userlist):
@@ -292,7 +334,7 @@ def signup_team(activityid, username, usernum, userlist):
             if teampnum != -1:
                 one = activity.find_one({'activityid':activityid})
                 seat = one['seat']
-                activity.update(one, {'$set':{'seat':seat+1}})
+                activity.update(one, {'$set':{'acitvity.seat':seat+1}})
             activity_member.update({'activityid':activityid},{'$push':{'member':{'leader':useranme, 'teameat':userlist}}})
             for item in userlist:
                 update_attend_activity(activity_attend, activityid, username, 1)

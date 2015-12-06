@@ -9,11 +9,61 @@
     <link href="/static/css/bootstrap.min.css" rel="stylesheet" media="screen">
     <script src="/static/js/jquery.min.js"></script>
     <script src="/static/js/bootstrap.min.js"></script>
+    <script src="/static/js/sprintf.js"></script>
     <style type="text/css">
     </style>
     <script type="text/javascript">
       $(document).ready(function(){
         $('[data-toggle="tooltip"]').tooltip();
+
+        $.getJSON("/api/activity/info/{{activityid}}",function(data,status){
+          if(data.rescode=="00000"){
+            var addhtml='<div class="panel-body">\
+              <img src="%s" width="100%%">\
+              <div class="col-md-8 col-md-offset-2" style="font-size:20px;">\
+                <center><h2>%s</h2></center>\
+                <p>%s</p>\
+                <p><strong>主办方： </strong>%s</p>\
+                <p><strong>活动时间： </strong>%s ~ %s</p>\
+                <p><strong>报名时间： </strong>%s ~ %s</p>\
+              </div>\
+              <div class="col-md-4 col-md-offset-2" style="font-size:20px;">\
+                <p><strong>单位形式： </strong>%s</p>\
+                <p><strong>人数上限： </strong>%s</p>\
+                <p><strong>筛选方式： </strong>%s</p>\
+                <p><strong>联系人： </strong>%s</p>\
+                <p><strong>联系电话： </strong>%s</p>\
+              </div>\
+              <div class="col-md-2 col-md-offset-1" style="font-size:20px;">\
+                <p><strong>扫我报名</strong></p>\
+                <img src="%s" width="100%%">\
+              </div>\
+              <button class="col-md-4 col-md-offset-4 btn btn-success btn-lg">\
+                立即报名\
+              </button>\
+            </div>'
+            var activitydata=data.activity.activitydata
+            var poster="/static/img/a.jpg"
+            var title=activitydata.title
+            var description=activitydata.description
+            var starttime=activitydata.starttime
+            var endtime=activitydata.endtime
+            var bstarttime=activitydata.bstarttime
+            var bendtime=activitydata.bendtime
+            var owner=activitydata.owner
+            var attendtype, filter, peoplenum, teamnum, teampeople
+            attendtype=activitydata.attendtype
+            filter=activitydata.filter
+            peoplenum=activitydata.peoplenum
+            fuzeren=activitydata.fuzeren
+            fuzerenphone=activitydata.fuzerenphone
+            qrcode="/static/img/a.jpg"
+            $("#info").append(sprintf(addhtml,poster,title,description,owner,starttime,endtime,bstarttime,bendtime,attendtype,peoplenum,filter,fuzeren,fuzerenphone,qrcode))
+          }
+          else if(data.rescode=="40001"){
+            $("#info").append("<h2>活动不存在</h2>")
+          }
+        });
       });
     </script>
   </head>
@@ -90,8 +140,8 @@
 
     <div class="container">
       <div class="col-md-10 col-md-offset-1">
-        <div class="panel panel-default">
-          <div class="panel-body">
+        <div class="panel panel-default" id="info">
+          <!-- <div class="panel-body">
             <img src="/static/img/mstczhaoxin.jpg" width="100%">
             <div class="col-md-8 col-md-offset-2" style="font-size:20px;">
               <center><h2>百团大战</h2></center>
@@ -116,7 +166,7 @@
             <button class="col-md-4 col-md-offset-4 btn btn-success btn-lg">
               立即报名
             </button>
-          </div>
+          </div> -->
         </div>
       </div>
     </div>

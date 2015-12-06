@@ -47,9 +47,9 @@ def add():
 def test():
 	return render_template("test.html")
 
-@app.route('/activity', methods=['GET'])
-def activity():
-	return render_template("activity.html")
+@app.route('/activity/<activityid>', methods=['GET'])
+def activity(activityid):
+	return render_template("activity.html", activityid=activityid)
 
 @app.route('/activitylist', methods=['GET'])
 def activitylist():

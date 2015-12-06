@@ -112,6 +112,10 @@
             }
             alert(appendproblemlist);
           }
+          $.post("/api/activity/admin/add",para,function(data,status){
+            alert(data.rescode);
+            alert(data.activityid);
+          });
         });
 
       });
@@ -230,10 +234,9 @@
                   </div>
 
                   <div class="form-group">
-                    <label for="introduction" class="col-sm-2 control-label">活动简介：</label>
+                    <label for="description" class="col-sm-2 control-label">活动简介：</label>
                     <div class="col-sm-10">
-                      <textarea class="form-control" rows="6" id="introduction">
-                      </textarea>
+                      <textarea class="form-control" rows="6" id="description"></textarea>
                     </div>
                   </div>
 
@@ -354,7 +357,7 @@
                     </div>
                   </div>
 
-                  <div class="form-group">
+                  <!-- <div class="form-group">
                     <label for="teampeoplenum" class="col-sm-2 control-label">队员人数限制：</label>
                     <div class="col-sm-2">
                       <input type="text" class="form-control" id="teampeoplenum">
@@ -362,7 +365,15 @@
                   </div>
 
                   <div class="form-group">
-                    <label for="peoplenum" class="col-sm-2 control-label">队伍数限制：</label>
+                    <label for="teamnum" class="col-sm-2 control-label">队伍数限制：</label>
+                    <div class="col-sm-2">
+                      <input type="text" class="form-control" id="teamnum">
+                    </div>
+                    <span class="help-block col-sm-offset-2">若无人数限制，请填“0”</span>
+                  </div> -->
+
+                  <div class="form-group">
+                    <label for="peoplenum" class="col-sm-2 control-label">人数限制：</label>
                     <div class="col-sm-2">
                       <input type="text" class="form-control" id="peoplenum">
                     </div>
@@ -384,7 +395,7 @@
                     <label for="bstartyear" class="col-sm-2 control-label">报名开始时间：</label>
                     <div class="col-sm-10">
                       <div class="input-group">
-                        <select type="text" class="form-control" id="startyear">
+                        <select type="text" class="form-control" id="bstartyear">
                           <option>2015</option>
                           <option>2016</option>
                           <option>2017</option>
