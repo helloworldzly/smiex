@@ -171,6 +171,11 @@ def check_attend_activity(activity_attend, activityid, username):
     '''
         检查某用户是否参加有参加活动
     '''
+    if activity_attend == None:
+        from model.mongodb import MongoDB
+        db = MongoDB().db
+        activity_attend = db.activity_attend
+
     one = activity_attend.find_one({'username':username})
 
     if one == None:

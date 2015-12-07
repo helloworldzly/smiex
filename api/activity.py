@@ -365,6 +365,30 @@ def activity_member(activityid):
     else:
         return jsonify(rescode=SUCCESS, member=member)
 
+@api.route('/acitivity/checkattend/<activityid>', methods=['GET'])
+def activity_checkattend(activityid):
+    '''
+        查询用户是否报名活动
+        参数： activityid
+        返回值： SUCCESS isattended / INVALID_OPERATION
+    '''
+    # cookies = request.cookies
+    # if not 'session' in cookies:
+    #     return jsonify(rescode=INVALID_OPERATION)
+
+    # session = cookies['session']
+
+    # from lib import get_username_by_session
+    # username = get_username_by_session(session)
+    username = 'zzy'
+
+    if username == None:
+        return jsonify(rescode=INVALID_OPERATION)
+
+    from lib import check_attend_activity
+    res = check_attend_activity(None, activityid, username)
+    return jsonify(rescode=SUCCESS, isattended=res)
+
 @api.route('/activity/signup/person/<activityid>', methods=['POST'])
 def activity_signup_person(activityid):
     '''

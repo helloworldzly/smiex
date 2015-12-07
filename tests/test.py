@@ -78,12 +78,18 @@ def activity_sign_down():
 	res = requests.post(url)
 	print res.text
 
+def get_file_list():
+	url = "http://127.0.0.1:5000/api/files/catalog/bii"
+	res = requests.get(url)
+	print res.text
+
 if __name__ == '__main__':
-	add_activity()
-	activity_info()
+	#add_activity()
+	#activity_info()
 	#activity_member()
 	#edit_activity()
-	activity_sign_up()
-	activity_info()
-	activity_sign_down()
-	activity_info()
+	#activity_sign_up()
+	#activity_info()
+	#activity_sign_down()
+	#activity_info()
+	get_file_list()

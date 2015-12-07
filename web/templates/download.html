@@ -9,13 +9,14 @@
     <link href="/static/css/bootstrap.min.css" rel="stylesheet" media="screen">
     <script src="/static/js/jquery.min.js"></script>
     <script src="/static/js/bootstrap.min.js"></script>
+    <script src="/static/js/sprintf.js"></script>
     <style type="text/css">
-      .hover{
+      /*.hover{
         border-width: 5px;
         border-color: #0000FF;
         border-style: solid;
         cursor: pointer;
-      }
+      }*/
       .icon{
         height: 90px;
       }
@@ -23,11 +24,34 @@
     <script type="text/javascript">
       $(document).ready(function(){
         $('[data-toggle="tooltip"]').tooltip();
-        $(".icon").mouseover(function(){
-          $(this).addClass("hover");
+        // $(".icon").mouseover(function(){
+        //   $(this).addClass("hover");
+        // });
+        // $(".icon").mouseout(function(){
+        //   $(this).removeClass("hover");
+        // });
+        $.getJSON("/api/files/catalog/{{path}}", function(data,status){
+          if(data.rescode=="00000"){
+            var filelist=data.filelist;
+            var folderlist=data.folderlist;
+            var addhtml='<div class="col-md-1 icon %s" href="%s">\
+        <img src="/static/img/folder.png" width="100%%" style="padding-top:10px;">\
+        <center><p>%s</p></center>\
+      </div>'
+            for(var i=0;i<folderlist.length;i++){
+              $("#folderlist").append(sprintf(addhtml,"folder",folderlist[i],folderlist[i]))
+            }
+            for(var i=0;i<filelist.length;i++){
+              $("#filelist").append(sprintf(addhtml,"file",filelist[i],filelist[i]))
+            }
+          }
         });
-        $(".icon").mouseout(function(){
-          $(this).removeClass("hover");
+        $(document).on("click",".folder",function(){
+          alert("/api/files/catalog/{{path}}/"+$(this).attr("href"));
+          //window.location.href="/api/files/catalog/{{path}}/"+$(this).attr("href");
+        });
+        $(document).on("click",".file",function(){
+
         });
       });
     </script>
@@ -109,7 +133,12 @@
         <li><a href="#">Library</a></li>
         <li class="active">Data</li>
       </ol>
-      <div class="col-md-1 icon">
+      <div class="col-md-12" id="folderlist">
+      </div>
+      <hr>
+      <div class="col-md-12" id="filelist">
+      </div>
+<!--       <div class="col-md-1 icon">
         <img src="/static/img/folder.png" width="100%" style="padding-top:10px;">
         <center><p>大一上</p></center>
       </div>
@@ -160,7 +189,7 @@
       <div class="col-md-1 icon">
         <img src="/static/img/folder.png" width="100%" style="padding-top:10px;">
         <center><p>大一上</p></center>
-      </div>
+      </div> -->
     </div>
 
     <footer>

@@ -55,6 +55,6 @@ def activity(activityid):
 def activitylist():
 	return render_template("activitylist.html")
 
-@app.route('/download', methods=['GET'])
-def download():
-	return render_template("download.html")
+@app.route('/download/<regex(".*"):path>', methods=['GET'])
+def download(path):
+	return render_template("download.html",path=path)

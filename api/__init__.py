@@ -8,3 +8,4 @@ from api import activity
 from api import blog
 from api import message
 from api import news
+from api import files

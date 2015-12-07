@@ -16,52 +16,89 @@
       $(document).ready(function(){
         $('[data-toggle="tooltip"]').tooltip();
 
-        $.getJSON("/api/activity/info/{{activityid}}",function(data,status){
-          if(data.rescode=="00000"){
-            var addhtml='<div class="panel-body">\
-              <img src="%s" width="100%%">\
-              <div class="col-md-8 col-md-offset-2" style="font-size:20px;">\
-                <center><h2>%s</h2></center>\
-                <p>%s</p>\
-                <p><strong>主办方： </strong>%s</p>\
-                <p><strong>活动时间： </strong>%s ~ %s</p>\
-                <p><strong>报名时间： </strong>%s ~ %s</p>\
-              </div>\
-              <div class="col-md-4 col-md-offset-2" style="font-size:20px;">\
-                <p><strong>单位形式： </strong>%s</p>\
-                <p><strong>人数上限： </strong>%s</p>\
-                <p><strong>筛选方式： </strong>%s</p>\
-                <p><strong>联系人： </strong>%s</p>\
-                <p><strong>联系电话： </strong>%s</p>\
-              </div>\
-              <div class="col-md-2 col-md-offset-1" style="font-size:20px;">\
-                <p><strong>扫我报名</strong></p>\
+        function getinfo(){
+          $.getJSON("/api/activity/info/{{activityid}}",function(data,status){
+            if(data.rescode=="00000"){
+              $("#info").empty();
+              var addhtml='<div class="panel-body">\
                 <img src="%s" width="100%%">\
-              </div>\
-              <button class="col-md-4 col-md-offset-4 btn btn-success btn-lg">\
-                立即报名\
-              </button>\
-            </div>'
-            var activitydata=data.activity.activitydata
-            var poster="/static/img/a.jpg"
-            var title=activitydata.title
-            var description=activitydata.description
-            var starttime=activitydata.starttime
-            var endtime=activitydata.endtime
-            var bstarttime=activitydata.bstarttime
-            var bendtime=activitydata.bendtime
-            var owner=activitydata.owner
-            var attendtype, filter, peoplenum, teamnum, teampeople
-            attendtype=activitydata.attendtype
-            filter=activitydata.filter
-            peoplenum=activitydata.peoplenum
-            fuzeren=activitydata.fuzeren
-            fuzerenphone=activitydata.fuzerenphone
-            qrcode="/static/img/a.jpg"
-            $("#info").append(sprintf(addhtml,poster,title,description,owner,starttime,endtime,bstarttime,bendtime,attendtype,peoplenum,filter,fuzeren,fuzerenphone,qrcode))
+                <div class="col-md-8 col-md-offset-2" style="font-size:20px;">\
+                  <center><h2>%s</h2></center>\
+                  <p>%s</p>\
+                  <p><strong>主办方： </strong>%s</p>\
+                  <p><strong>活动时间： </strong>%s ~ %s</p>\
+                  <p><strong>报名时间： </strong>%s ~ %s</p>\
+                </div>\
+                <div class="col-md-4 col-md-offset-2" style="font-size:20px;">\
+                  <p><strong>单位形式： </strong>%s</p>\
+                  <p><strong>人数上限： </strong>%s</p>\
+                  <p><strong>筛选方式： </strong>%s</p>\
+                  <p><strong>联系人： </strong>%s</p>\
+                  <p><strong>联系电话： </strong>%s</p>\
+                </div>\
+                <div class="col-md-2 col-md-offset-1" style="font-size:20px;">\
+                  <p><strong>扫我报名</strong></p>\
+                  <img src="%s" width="100%%">\
+                </div>\
+              </div>'
+              var activitydata=data.activity.activitydata
+              var poster="/static/img/a.jpg"
+              var title=activitydata.title
+              var description=activitydata.description
+              var starttime=activitydata.starttime
+              var endtime=activitydata.endtime
+              var bstarttime=activitydata.bstarttime
+              var bendtime=activitydata.bendtime
+              var owner=activitydata.owner
+              var attendtype, filter, peoplenum, teamnum, teampeople
+              attendtype=activitydata.attendtype
+              filter=activitydata.filter
+              peoplenum=activitydata.peoplenum
+              fuzeren=activitydata.fuzeren
+              fuzerenphone=activitydata.fuzerenphone
+              qrcode="/static/img/a.jpg"
+              $("#info").append(sprintf(addhtml,poster,title,description,owner,starttime,endtime,bstarttime,bendtime,attendtype,peoplenum,filter,fuzeren,fuzerenphone,qrcode))
+              $.getJSON("/api/acitivity/checkattend/{{activityid}}", function(data,status){
+                if(data.rescode=="00000"){
+                  if(data.isattended==false){
+                    $("#info>.panel-body").append('\
+                      <button class="col-md-4 col-md-offset-4 btn btn-success btn-lg sign signup">\
+                      立即报名\
+                      </button>');
+                  }
+                  else{
+                    $("#info>.panel-body").append('\
+                      <button class="col-md-4 col-md-offset-4 btn btn-danger btn-lg sign signdown">\
+                      取消报名\
+                      </button>');
+                  }
+                }
+              });
+            }
+            else if(data.rescode=="40001"){
+              $("#info").append("<h2>活动不存在</h2>")
+            }
+          });
+        }
+        getinfo();
+        
+
+        $(document).on("click",".sign",function(){
+          if($(this).hasClass("signup")){
+            $.post("/api/activity/signup/person/{{activityid}}", function(data, status){
+              if(data.rescode=="00000"){
+                alert("报名成功");
+                getinfo();
+              }
+            });
           }
-          else if(data.rescode=="40001"){
-            $("#info").append("<h2>活动不存在</h2>")
+          else{
+            $.post("/api/activity/signdown/person/{{activityid}}", function(data, status){
+              if(data.rescode=="00000"){
+                alert("取消报名成功");
+                getinfo();
+              }
+            });
           }
         });
       });
