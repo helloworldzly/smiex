@@ -24,6 +24,13 @@
     <script type="text/javascript">
       $(document).ready(function(){
         $('[data-toggle="tooltip"]').tooltip();
+        $("#logout").click(function(){
+          $.getJSON("/api/logout",function(data,status){
+            if(data.rescode=="00000"){
+              window.location.href="/login";
+            }
+          });
+        });
         // $(".icon").mouseover(function(){
         //   $(this).addClass("hover");
         // });
@@ -47,11 +54,19 @@
           }
         });
         $(document).on("click",".folder",function(){
-          alert("/api/files/catalog/{{path}}/"+$(this).attr("href"));
-          //window.location.href="/api/files/catalog/{{path}}/"+$(this).attr("href");
+          //alert("/api/files/catalog/{{path}}/"+$(this).attr("href"));
+          var path = "{{path}}"
+          if(path=="")
+            window.location.href="/download/{{path}}"+$(this).attr("href");
+          else
+            window.location.href="/download/{{path}}/"+$(this).attr("href");
         });
         $(document).on("click",".file",function(){
-
+          var path = "{{path}}"
+          if(path=="")
+            window.location.href="/static/{{path}}"+$(this).attr("href");
+          else
+            window.location.href="/static/{{path}}/"+$(this).attr("href");
         });
       });
     </script>
@@ -71,13 +86,13 @@
         <div class="collapse navbar-collapse" id="navitem">
           <ul class="nav navbar-nav">
             <li class="active">
-              <a href="#">首页</a>
+              <a href="/">首页</a>
             </li>
             <li>
-              <a href="#">活动中心</a>
+              <a href="/activitylist">活动中心</a>
             </li>
             <li>
-              <a href="#">资源平台</a>
+              <a href="/download/">资源平台</a>
             </li>
           </ul>
 
@@ -106,7 +121,7 @@
               </a>
             </li>
             <li>
-              <a href="#" data-toggle="tooltip" data-placement="bottom" title="注销">
+              <a href="#" data-toggle="tooltip" data-placement="bottom" title="注销" id="logout">
                 <span class="glyphicon glyphicon-log-out" aria-hidden="true"></span>
               </a>
             </li>

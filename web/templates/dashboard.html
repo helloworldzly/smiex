@@ -36,6 +36,13 @@
     <script type="text/javascript">
       $(document).ready(function(){
         $('[data-toggle="tooltip"]').tooltip();
+        $("#logout").click(function(){
+          $.getJSON("/api/logout",function(data,status){
+            if(data.rescode=="00000"){
+              window.location.href="/login";
+            }
+          });
+        });
         var appendnum=0;
         $(document).on("mouseenter",".append-addon",function(){
           $(this).addClass("append-close");
@@ -113,8 +120,10 @@
             alert(appendproblemlist);
           }
           $.post("/api/activity/admin/add",para,function(data,status){
-            alert(data.rescode);
-            alert(data.activityid);
+            alert("提交成功")
+            window.loaction.href="/activity/"+data.activityid
+            // alert(data.rescode);
+            // alert(data.activityid);
           });
         });
 
@@ -136,13 +145,13 @@
         <div class="collapse navbar-collapse" id="navitem">
           <ul class="nav navbar-nav">
             <li class="active">
-              <a href="#">首页</a>
+              <a href="/">首页</a>
             </li>
             <li>
-              <a href="#">活动中心</a>
+              <a href="/activitylist">活动中心</a>
             </li>
             <li>
-              <a href="#">资源平台</a>
+              <a href="/download/">资源平台</a>
             </li>
           </ul>
 
@@ -171,7 +180,7 @@
               </a>
             </li>
             <li>
-              <a href="#" data-toggle="tooltip" data-placement="bottom" title="注销">
+              <a href="#" data-toggle="tooltip" data-placement="bottom" title="注销" id="logout">
                 <span class="glyphicon glyphicon-log-out" aria-hidden="true"></span>
               </a>
             </li>

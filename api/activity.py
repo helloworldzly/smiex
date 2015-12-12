@@ -25,18 +25,18 @@ def activity_admin_add():
         验证参数表是否合法，不合法则返回 INVALID_OPERATION
         将相关信息写入数据库，将活动ID返回
     '''
-    #cookies = request.cookies
-    #if not 'session' in cookies:
-    #    return jsonify(rescode=INVALID_OPERATION)
+    cookies = request.cookies
+    if not 'session' in cookies:
+       return jsonify(rescode=INVALID_OPERATION)
 
-    #session = cookies['session']
+    session = cookies['session']
 
-    #from lib import get_username_by_session
-    #username = get_username_by_session(session)
-    #if username == None:
-    #    return jsonify(rescode=INVALID_OPERATION)
+    from lib import get_username_by_session
+    username = get_username_by_session(session)
+    if username == None:
+       return jsonify(rescode=INVALID_OPERATION)
 
-    username = 'zengzhaoyang'
+    # username = 'zengzhaoyang'
 
     from lib import check_authority
     if check_authority(username, 'addactivity') == False:
@@ -145,20 +145,19 @@ def activity_admin_edit():
         中的一项或几项
         返回值： SUCCESS / PARAMETER_ERROR / INVALID_OPERATION / PERMISSION_DENIED 
     '''
-    # cookies = request.cookies
-    # if not 'session' in cookies:
-    #     return jsonify(rescode=INVALID_OPERATION)
+    cookies = request.cookies
+    if not 'session' in cookies:
+       return jsonify(rescode=INVALID_OPERATION)
 
-    # session = cookies['session']
+    session = cookies['session']
 
-    # from lib import get_username_by_session
-    # username = get_username_by_session(session)
+    from lib import get_username_by_session
+    username = get_username_by_session(session)
+    if username == None:
+       return jsonify(rescode=INVALID_OPERATION)
 
-    # if username == None:
-        # return jsonify(rescode=INVALID_OPERATION)
 
-
-    username = 'zengzhaoyang'
+    # username = 'zengzhaoyang'
 
     form = request.form
     if not 'activityid' in form:
@@ -277,13 +276,18 @@ def activity_admin_delete():
         返回值： SUCCESS / ACTIVITY_NOT_EXIST / INVALID_OPERATION / PERMISSION_DENIED
         查找activity表，删除活动id对应的活动
     '''
-    # cookies = request.cookies
-    # if not 'session' in cookies:
-    #     return jsonify(rescode=INVALID_OPERATION)
+    cookies = request.cookies
+    if not 'session' in cookies:
+       return jsonify(rescode=INVALID_OPERATION)
 
-    # session = cookies['session']
+    session = cookies['session']
 
-    username = 'zengzhaoyang'
+    from lib import get_username_by_session
+    username = get_username_by_session(session)
+    if username == None:
+       return jsonify(rescode=INVALID_OPERATION)
+
+    # username = 'zengzhaoyang'
 
     form = request.form
     if not 'activityid' in form:
@@ -311,10 +315,17 @@ def activity_info(activityid):
         参数： activityid
         返回值： SUCCESS activity / ACTIVITY_NOT_EXIST / INVALID_OPERATION
     '''
-    # cookies = request.cookies
-    # if not 'session' in cookies:
-    #     return jsonify(rescode=INVALID_OPERATION)
-    username = 'zengzhaoyang'
+    cookies = request.cookies
+    if not 'session' in cookies:
+       return jsonify(rescode=INVALID_OPERATION)
+
+    session = cookies['session']
+
+    from lib import get_username_by_session
+    username = get_username_by_session(session)
+    if username == None:
+       return jsonify(rescode=INVALID_OPERATION)
+    # username = 'zengzhaoyang'
 
     from lib import get_activity_by_id
     res, activity = get_activity_by_id(activityid)
@@ -329,10 +340,17 @@ def activity_list():
         查询活动列表
         返回值： SUCCESS activitylist / INVALID_OPERATION
     '''
-    # cookies = request.cookies
-    # if not 'session' in cookies:
-    #     return jsonify(rescode=INVALID_OPERATION)
-    username = 'zengzhaoyang'
+    cookies = request.cookies
+    if not 'session' in cookies:
+       return jsonify(rescode=INVALID_OPERATION)
+
+    session = cookies['session']
+
+    from lib import get_username_by_session
+    username = get_username_by_session(session)
+    if username == None:
+       return jsonify(rescode=INVALID_OPERATION)
+    # username = 'zengzhaoyang'
 
     from lib import get_activity_list
     res = get_activity_list()
@@ -345,17 +363,17 @@ def activity_member(activityid):
         参数： activityid
         返回值： SUCCESS / INVALID_OPERATION / ACTIVITY_NOT_EXIST
     '''
-    # cookies = request.cookies
-    # if not 'session' in cookies:
-    #     return jsonify(rescode=INVALID_OPERATION)
+    cookies = request.cookies
+    if not 'session' in cookies:
+       return jsonify(rescode=INVALID_OPERATION)
 
-    # session = cookies['session']
-    # from lib import get_username_by_session
-    # username = get_username_by_session(session)
-    username = 'zengzhaoyang'
+    session = cookies['session']
 
+    from lib import get_username_by_session
+    username = get_username_by_session(session)
     if username == None:
-        return jsonify(rescode=INVALID_OPERATION)
+       return jsonify(rescode=INVALID_OPERATION)
+    # username = 'zengzhaoyang'
 
     from lib import get_activity_member_by_id
     res, attend_type, member = get_activity_member_by_id(activityid, username)
@@ -372,22 +390,45 @@ def activity_checkattend(activityid):
         参数： activityid
         返回值： SUCCESS isattended / INVALID_OPERATION
     '''
-    # cookies = request.cookies
-    # if not 'session' in cookies:
-    #     return jsonify(rescode=INVALID_OPERATION)
+    cookies = request.cookies
+    if not 'session' in cookies:
+       return jsonify(rescode=INVALID_OPERATION)
 
-    # session = cookies['session']
+    session = cookies['session']
 
-    # from lib import get_username_by_session
-    # username = get_username_by_session(session)
-    username = 'zzy'
-
+    from lib import get_username_by_session
+    username = get_username_by_session(session)
     if username == None:
-        return jsonify(rescode=INVALID_OPERATION)
+       return jsonify(rescode=INVALID_OPERATION)
+
+    # if username == None:
+        # return jsonify(rescode=INVALID_OPERATION)
 
     from lib import check_attend_activity
     res = check_attend_activity(None, activityid, username)
     return jsonify(rescode=SUCCESS, isattended=res)
+
+@api.route('/activity/checkisadmin/<activityid>', methods=['GET'])
+def activity_checkisadmin(activityid):
+    '''
+        查询用户是否为活动管理员
+        参数： activityid
+        返回值： SUCCESS isadmin / INVALID_OPERATION
+    '''
+    cookies = request.cookies
+    if not 'session' in cookies:
+       return jsonify(rescode=INVALID_OPERATION)
+
+    session = cookies['session']
+
+    from lib import get_username_by_session
+    username = get_username_by_session(session)
+    if username == None:
+       return jsonify(rescode=INVALID_OPERATION)
+
+    from lib import check_activity_isadmin
+    res = check_activity_isadmin(activityid, username)
+    return jsonify(rescode=SUCCESS, isadmin=res)
 
 @api.route('/activity/signup/person/<activityid>', methods=['POST'])
 def activity_signup_person(activityid):
@@ -398,18 +439,16 @@ def activity_signup_person(activityid):
         SIGNUP_IS_END / USER_IS_SIGNUP / SIGNUP_TYPE_ERROR / MEMBER_FULL
         INVALID_OPERATION 
     '''
-    # cookies = request.cookies
-    # if not 'session' in cookies:
-    #     return jsonify(rescode=INVALID_OPERATION)
+    cookies = request.cookies
+    if not 'session' in cookies:
+       return jsonify(rescode=INVALID_OPERATION)
 
-    # session = cookies['session']
+    session = cookies['session']
 
-    # from lib import get_username_by_session
-    # username = get_username_by_session(session)
-    username = 'zzy'
-
+    from lib import get_username_by_session
+    username = get_username_by_session(session)
     if username == None:
-        return jsonify(rescode=INVALID_OPERATION)
+       return jsonify(rescode=INVALID_OPERATION)
 
     from lib import signup_person
     res = signup_person(activityid, username)
@@ -438,18 +477,16 @@ def activity_signdown_person(activityid):
         SIGNDOWN_NOT_BEGIN / SIGNDOWN_IS_END / ACTIVITY_NOT_EXIST / 
         SIGNUP_TYPE_ERROR
     '''
-    # cookies = request.cookies
-    # if not 'session' in cookies:
-    #     return jsonify(rescode=INVALID_OPERATION)
+    cookies = request.cookies
+    if not 'session' in cookies:
+       return jsonify(rescode=INVALID_OPERATION)
 
-    # session = cookies['session']
+    session = cookies['session']
 
-    # from lib import get_username_by_session
-    # username = get_username_by_session(session)
-    username = 'zzy'
-
+    from lib import get_username_by_session
+    username = get_username_by_session(session)
     if username == None:
-        return jsonify(rescode=INVALID_OPERATION)
+       return jsonify(rescode=INVALID_OPERATION)
 
     from lib import signdown_person
     res = signdown_person(activityid, username)
@@ -479,14 +516,14 @@ def activity_signup_team(activityid):
     '''
     cookies = request.cookies
     if not 'session' in cookies:
-        return jsonify(rescode=INVALID_OPERATION)
+       return jsonify(rescode=INVALID_OPERATION)
 
     session = cookies['session']
+
     from lib import get_username_by_session
     username = get_username_by_session(session)
-
     if username == None:
-        return jsonify(rescode=INVALID_OPERATION)
+       return jsonify(rescode=INVALID_OPERATION)
 
     form = request.form
     if not 'usernum' in form or not 'userlist' in form:
@@ -529,13 +566,14 @@ def activity_signdown_team(activityid):
     '''
     cookies = request.cookies
     if not 'session' in cookies:
-        return jsonify(rescode=INVALID_OPERATION)
+       return jsonify(rescode=INVALID_OPERATION)
+
+    session = cookies['session']
 
     from lib import get_username_by_session
     username = get_username_by_session(session)
-
     if username == None:
-        return jsonify(rescode=INVALID_OPERATION)
+       return jsonify(rescode=INVALID_OPERATION)
 
     from lib import signdown_team
     res = signdown_team(activityid, username)
@@ -568,9 +606,14 @@ def activity_addperson_team(activityid):
     '''
     cookies = request.cookies
     if not 'session' in cookies:
-        return jsonify(rescode=INVALID_OPERATION)
+       return jsonify(rescode=INVALID_OPERATION)
 
     session = cookies['session']
+
+    from lib import get_username_by_session
+    username = get_username_by_session(session)
+    if username == None:
+       return jsonify(rescode=INVALID_OPERATION)
 
     form = request.form
     if not 'usernum' in form or not 'userlist' in form:

@@ -35,7 +35,7 @@
         $("#logout").click(function(){
           $.getJSON("/api/logout",function(data,status){
             if(data.rescode=="00000"){
-              window.location.href="/";
+              window.location.href="/login";
             }
           });
         });
@@ -57,13 +57,13 @@
         <div class="collapse navbar-collapse" id="navitem">
           <ul class="nav navbar-nav">
             <li class="active">
-              <a href="#">首页</a>
+              <a href="/">首页</a>
             </li>
             <li>
-              <a href="#">活动中心</a>
+              <a href="/activitylist">活动中心</a>
             </li>
             <li>
-              <a href="#">资源平台</a>
+              <a href="/download/">资源平台</a>
             </li>
           </ul>
 

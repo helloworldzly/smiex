@@ -167,6 +167,22 @@ def check_activity_changeable(activityid, username):
         return True
     return False
 
+def check_activity_isadmin(activityid, username):
+    '''
+        检查活动owner是否是username
+    '''
+    from model.mongodb import MongoDB
+    db = MongoDB().db
+    activity = db.activity
+
+    one = activity.find_one({'activityid':activityid})
+    print one['activitydata']['owner']
+    if one == None:
+        return False
+    if one['activitydata']['owner'] != username:
+        return False
+    return True
+
 def check_attend_activity(activity_attend, activityid, username):
     '''
         检查某用户是否参加有参加活动
